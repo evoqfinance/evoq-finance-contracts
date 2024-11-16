@@ -1,10 +1,11 @@
 // SPDX-License-Identifier: AGPL-3.0-only
-pragma solidity 0.8.20;
+pragma solidity 0.8.22;
 
 import "src/interfaces/IRewardsManager.sol";
 import "src/interfaces/IInterestRatesManager.sol";
 import "src/interfaces/IPositionsManager.sol";
 import "src/interfaces/venus/IVenus.sol";
+import "src/interfaces/extensions/IWBNBGateway.sol";
 
 import "solmate/utils/SafeTransferLib.sol";
 import "@openzeppelin/contracts/proxy/transparent/TransparentUpgradeableProxy.sol";
@@ -18,6 +19,7 @@ import {PositionsManager} from "src/PositionsManager.sol";
 import {Evoq} from "src/Evoq.sol";
 import {Lens} from "src/lens/Lens.sol";
 import {DataLens} from "src/lens/DataLens.sol";
+import {WBNBGateway} from "src/extensions/WBNBGateway.sol";
 import {SimplePriceOracle} from "../test/helpers/SimplePriceOracle.sol";
 
 import "config/venus/ConfigTestnet.sol";
@@ -90,7 +92,7 @@ contract Deploy is Script, ConfigTestnet {
         evoq.createMarket(vXvs, defaultMarketParameters);
         evoq.createMarket(vMatic, defaultMarketParameters);
 
-        WBNBGateway wbnbGateway = new WBNBGateway(address(evoq), vBnb);
+        IWBNBGateway wbnbGateway = new WBNBGateway(address(evoq), vBnb);
 
         vm.stopBroadcast();
     }

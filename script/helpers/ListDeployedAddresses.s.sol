@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: AGPL-3.0-only
-pragma solidity 0.8.20;
+pragma solidity 0.8.22;
 
 import "forge-std/console.sol";
 import "forge-std/Script.sol";
@@ -14,7 +14,7 @@ contract ListDeployedAddresses is Script {
         string memory deployData = vm.readFile(path);
 
         // overset the number because don't know how to get the exact number of deployed contracts
-        numOfContracts = 30;
+        uint256 numOfContracts = 30;
         for (uint256 j; j < numOfContracts; j++) {
             string memory txType = abi.decode(
                 deployData.parseRaw(string.concat(".transactions[", vm.toString(j), "].transactionType")), (string)

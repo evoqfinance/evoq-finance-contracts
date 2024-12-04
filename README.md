@@ -1,6 +1,6 @@
 # Evoq
 
-Evoq is a peer-to-peer lending protocol built on top of lending protocol like Venus. As a pool optimizer, Evoq connects lenders with borrowers directly, improving capital efficiency and yields while maintaining liquidity and risk levels of the underlying protocol.
+Evoq is a modular money market optimizer interacting with the existing lending protocols. As a pool optimizer, Evoq connects lenders with borrowers directly, improving capital efficiency and yields while maintaining liquidity and risk levels of the underlying protocol.
 
 ## Usage
 

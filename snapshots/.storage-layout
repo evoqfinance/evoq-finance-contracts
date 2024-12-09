@@ -1,0 +1,60 @@
+
+=======================
+➡ Evoq
+=======================
+
+| Name                     | Type                                                               | Slot | Offset | Bytes | Contract          |
+|--------------------------|--------------------------------------------------------------------|------|--------|-------|-------------------|
+| maxSortedUsers           | uint256                                                            | 0    | 0      | 32    | src/Evoq.sol:Evoq |
+| dustThreshold            | uint256                                                            | 1    | 0      | 32    | src/Evoq.sol:Evoq |
+| defaultMaxGasForMatching | struct Types.MaxGasForMatching                                     | 2    | 0      | 32    | src/Evoq.sol:Evoq |
+| treasuryPercentMantissa  | uint256                                                            | 3    | 0      | 32    | src/Evoq.sol:Evoq |
+| suppliersInP2P           | mapping(address => struct DoubleLinkedList.List)                   | 4    | 0      | 32    | src/Evoq.sol:Evoq |
+| suppliersOnPool          | mapping(address => struct DoubleLinkedList.List)                   | 5    | 0      | 32    | src/Evoq.sol:Evoq |
+| borrowersInP2P           | mapping(address => struct DoubleLinkedList.List)                   | 6    | 0      | 32    | src/Evoq.sol:Evoq |
+| borrowersOnPool          | mapping(address => struct DoubleLinkedList.List)                   | 7    | 0      | 32    | src/Evoq.sol:Evoq |
+| supplyBalanceInOf        | mapping(address => mapping(address => struct Types.SupplyBalance)) | 8    | 0      | 32    | src/Evoq.sol:Evoq |
+| borrowBalanceInOf        | mapping(address => mapping(address => struct Types.BorrowBalance)) | 9    | 0      | 32    | src/Evoq.sol:Evoq |
+| userMembership           | mapping(address => mapping(address => bool))                       | 10   | 0      | 32    | src/Evoq.sol:Evoq |
+| enteredMarkets           | mapping(address => address[])                                      | 11   | 0      | 32    | src/Evoq.sol:Evoq |
+| marketsCreated           | address[]                                                          | 12   | 0      | 32    | src/Evoq.sol:Evoq |
+| p2pDisabled              | mapping(address => bool)                                           | 13   | 0      | 32    | src/Evoq.sol:Evoq |
+| p2pSupplyIndex           | mapping(address => uint256)                                        | 14   | 0      | 32    | src/Evoq.sol:Evoq |
+| p2pBorrowIndex           | mapping(address => uint256)                                        | 15   | 0      | 32    | src/Evoq.sol:Evoq |
+| lastPoolIndexes          | mapping(address => struct Types.LastPoolIndexes)                   | 16   | 0      | 32    | src/Evoq.sol:Evoq |
+| marketParameters         | mapping(address => struct Types.MarketParameters)                  | 17   | 0      | 32    | src/Evoq.sol:Evoq |
+| marketStatus             | mapping(address => struct Types.MarketStatus)                      | 18   | 0      | 32    | src/Evoq.sol:Evoq |
+| deltas                   | mapping(address => struct Types.Delta)                             | 19   | 0      | 32    | src/Evoq.sol:Evoq |
+| supplyCaps               | mapping(address => uint256)                                        | 20   | 0      | 32    | src/Evoq.sol:Evoq |
+| borrowCaps               | mapping(address => uint256)                                        | 21   | 0      | 32    | src/Evoq.sol:Evoq |
+| positionsManager         | contract IPositionsManager                                         | 22   | 0      | 20    | src/Evoq.sol:Evoq |
+| rewardsManager           | contract IRewardsManager                                           | 23   | 0      | 20    | src/Evoq.sol:Evoq |
+| interestRatesManager     | contract IInterestRatesManager                                     | 24   | 0      | 20    | src/Evoq.sol:Evoq |
+| comptroller              | contract IComptroller                                              | 25   | 0      | 20    | src/Evoq.sol:Evoq |
+| treasuryVault            | address                                                            | 26   | 0      | 20    | src/Evoq.sol:Evoq |
+| vBnb                     | address                                                            | 27   | 0      | 20    | src/Evoq.sol:Evoq |
+| wBnb                     | address                                                            | 28   | 0      | 20    | src/Evoq.sol:Evoq |
+| lastBorrowBlock          | mapping(address => uint256)                                        | 29   | 0      | 32    | src/Evoq.sol:Evoq |
+| isClaimRewardsPaused     | bool                                                               | 30   | 0      | 1     | src/Evoq.sol:Evoq |
+| marketPauseStatus        | mapping(address => struct Types.MarketPauseStatus)                 | 31   | 0      | 32    | src/Evoq.sol:Evoq |
+
+=======================
+➡ RewardsManager
+=======================
+
+| Name                    | Type                                                     | Slot | Offset | Bytes | Contract                              |
+|-------------------------|----------------------------------------------------------|------|--------|-------|---------------------------------------|
+| userUnclaimedXvsRewards | mapping(address => uint256)                              | 0    | 0      | 32    | src/RewardsManager.sol:RewardsManager |
+| venusSupplierIndex      | mapping(address => mapping(address => uint256))          | 1    | 0      | 32    | src/RewardsManager.sol:RewardsManager |
+| venusBorrowerIndex      | mapping(address => mapping(address => uint256))          | 2    | 0      | 32    | src/RewardsManager.sol:RewardsManager |
+| localXvsSupplyState     | mapping(address => struct IComptroller.VenusMarketState) | 3    | 0      | 32    | src/RewardsManager.sol:RewardsManager |
+| localXvsBorrowState     | mapping(address => struct IComptroller.VenusMarketState) | 4    | 0      | 32    | src/RewardsManager.sol:RewardsManager |
+| evoq                    | contract IEvoq                                           | 5    | 0      | 20    | src/RewardsManager.sol:RewardsManager |
+| comptroller             | contract IComptroller                                    | 6    | 0      | 20    | src/RewardsManager.sol:RewardsManager |
+
+=======================
+➡ Lens
+=======================
+
+| Name | Type | Slot | Offset | Bytes | Contract |
+|------|------|------|--------|-------|----------|

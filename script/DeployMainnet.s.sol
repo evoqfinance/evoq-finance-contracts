@@ -93,6 +93,31 @@ contract Deploy is Script, Config {
         evoq.createMarket(vFdusd, defaultMarketParameters);
         evoq.createMarket(vCake, defaultMarketParameters);
 
+        // Set market supply and borrow caps
+        address[] memory markets = new address[](5);
+        markets[0] = vBnb;
+        markets[1] = vUsdc;
+        markets[2] = vEth;
+        markets[3] = vXvs;
+        markets[4] = vMatic;
+
+        uint256[] memory supplyCaps = new uint256[](5);
+        supplyCaps[0] = 2_672_000 ether;
+        supplyCaps[1] = 258_000_000 ether;
+        supplyCaps[2] = 100_000 ether;
+        supplyCaps[3] = 1_850_000 ether;
+        supplyCaps[4] = 5_500_000 ether;
+
+        uint256[] memory borrowCaps = new uint256[](5);
+        borrowCaps[0] = 2_008_000 ether;
+        borrowCaps[1] = 200_000_000 ether;
+        borrowCaps[2] = 60_000 ether;
+        borrowCaps[3] = 0 ether;
+        borrowCaps[4] = 250_000 ether;
+
+        evoq.setMarketSupplyCaps(markets, supplyCaps);
+        evoq.setMarketBorrowCaps(markets, borrowCaps);
+
         IWBNBGateway wbnbGateway = new WBNBGateway(address(evoq), vBnb);
 
         vm.stopBroadcast();

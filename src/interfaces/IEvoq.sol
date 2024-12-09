@@ -70,6 +70,8 @@ interface IEvoq {
     function setIsLiquidateBorrowPaused(address _poolToken, bool _isPaused) external;
     function claimToTreasury(address[] calldata _poolTokens, uint256[] calldata _amounts) external;
     function createMarket(address _poolToken, Types.MarketParameters calldata _params) external;
+    function setMarketSupplyCaps(address[] calldata _poolTokens, uint256[] calldata _newSupplyCaps) external;
+    function setMarketBorrowCaps(address[] calldata _poolTokens, uint256[] calldata _newBorrowCaps) external;
 
     /// USERS ///
 

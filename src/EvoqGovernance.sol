@@ -109,6 +109,12 @@ abstract contract EvoqGovernance is EvoqUtils {
     /// @notice Emitted when the percent of the seized amount that goes to treasury changes.
     event LiquidationTreasuryPercentSet(uint256 treasuryPercentMantissa);
 
+    /// @notice Emitted when supply cap for a pool token changes.
+    event MarketSupplyCapSet(address indexed _poolToken, uint256 _newSupplyCap);
+
+    /// @notice Emitted when borrow cap for a pool token changes.
+    event MarketBorrowCapSet(address indexed _poolToken, uint256 _newBorrowCap);
+
     /// ERRORS ///
 
     /// @notice Thrown when the creation of a market failed on Venus and kicks back Venus error code.
@@ -366,6 +372,40 @@ abstract contract EvoqGovernance is EvoqUtils {
         }
         marketPauseStatus[_poolToken].isDeprecated = _isDeprecated;
         emit IsDeprecatedSet(_poolToken, _isDeprecated);
+    }
+
+    /// @notice Sets the supply caps for a list of markets.
+    /// @param _poolTokens The addresses of the markets to update.
+    /// @param _newSupplyCaps The new supply caps for each market.
+    function setMarketSupplyCaps(address[] calldata _poolTokens, uint256[] calldata _newSupplyCaps)
+        external
+        onlyOwner
+    {
+        uint256 numberOfMarkets = _poolTokens.length;
+        require(numberOfMarkets != 0 && numberOfMarkets == _newSupplyCaps.length, "invalid input");
+
+        for (uint256 i; i < numberOfMarkets; ++i) {
+            address poolToken = _poolTokens[i];
+            supplyCaps[poolToken] = _newSupplyCaps[i];
+            emit MarketSupplyCapSet(poolToken, _newSupplyCaps[i]);
+        }
+    }
+
+    /// @notice Sets the borrow caps for a list of markets.
+    /// @param _poolTokens The addresses of the markets to update.
+    /// @param _newBorrowCaps The new borrow caps for each market.
+    function setMarketBorrowCaps(address[] calldata _poolTokens, uint256[] calldata _newBorrowCaps)
+        external
+        onlyOwner
+    {
+        uint256 numberOfMarkets = _poolTokens.length;
+        require(numberOfMarkets != 0 && numberOfMarkets == _newBorrowCaps.length, "invalid input");
+
+        for (uint256 i; i < numberOfMarkets; ++i) {
+            address poolToken = _poolTokens[i];
+            borrowCaps[poolToken] = _newBorrowCaps[i];
+            emit MarketBorrowCapSet(poolToken, _newBorrowCaps[i]);
+        }
     }
 
     /// @notice Increases peer-to-peer deltas, to put some liquidity back on the pool.

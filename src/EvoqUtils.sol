@@ -16,6 +16,7 @@ abstract contract EvoqUtils is EvoqStorage {
     using DoubleLinkedList for DoubleLinkedList.List;
     using CompoundMath for uint256;
     using DelegateCall for address;
+    using Math for uint256;
 
     /// ERRORS ///
 
@@ -203,5 +204,58 @@ abstract contract EvoqUtils is EvoqStorage {
         } else {
             return ERC20(IVToken(_poolToken).underlying());
         }
+    }
+
+    /// @dev Checks if the user can supply without exceeding the supply cap.
+    function _supplyAllowed(address _poolToken, uint256 _amount) internal view returns (bool) {
+        require(marketStatus[_poolToken].isCreated, "market not created");
+
+        uint256 supplyCap = supplyCaps[_poolToken];
+        require(supplyCap != 0, "market supply cap is 0");
+
+        Types.Delta storage delta = deltas[_poolToken];
+        uint256 _p2pSupplyIndex = p2pSupplyIndex[_poolToken];
+        uint256 _poolSupplyIndex = IVToken(_poolToken).exchangeRateStored();
+        uint256 p2pSupplyAmount =
+            delta.p2pSupplyAmount.mul(_p2pSupplyIndex).zeroFloorSub(delta.p2pSupplyDelta.mul(_poolSupplyIndex));
+        uint256 poolSupplyAmount = IVToken(_poolToken).balanceOf(address(this)).mul(_poolSupplyIndex);
+
+        uint256 totalSupply = p2pSupplyAmount + poolSupplyAmount;
+        uint256 nextTotalSupply = totalSupply + _amount;
+
+        if (nextTotalSupply > supplyCap) {
+            return false;
+        }
+
+        return true;
+    }
+
+    /// @dev Checks if the user can borrow without exceeding the borrow cap.
+    function _borrowAllowed(address _poolToken, uint256 _amount) internal view returns (bool) {
+        require(marketStatus[_poolToken].isCreated, "market not created");
+
+        IVenusOracle oracle = IVenusOracle(comptroller.oracle());
+        require(oracle.getUnderlyingPrice(_poolToken) != 0, "oracle failed");
+
+        uint256 borrowCap = borrowCaps[_poolToken];
+
+        // If the borrow cap is 0, there is no cap.
+        if (borrowCap != 0) {
+            Types.Delta storage delta = deltas[_poolToken];
+            uint256 _p2pBorrowIndex = p2pBorrowIndex[_poolToken];
+            uint256 _poolBorrowIndex = IVToken(_poolToken).borrowIndex();
+            uint256 p2pBorrowAmount =
+                delta.p2pBorrowAmount.mul(_p2pBorrowIndex).zeroFloorSub(delta.p2pBorrowDelta.mul(_poolBorrowIndex));
+            uint256 poolBorrowAmount = IVToken(_poolToken).borrowBalanceStored(address(this));
+
+            uint256 totalBorrow = p2pBorrowAmount + poolBorrowAmount;
+            uint256 nextTotalBorrow = totalBorrow + _amount;
+
+            if (nextTotalBorrow > borrowCap) {
+                return false;
+            }
+        }
+
+        return true;
     }
 }

@@ -50,6 +50,9 @@ abstract contract EvoqStorage is OwnableUpgradeable, ReentrancyGuardUpgradeable 
     mapping(address => Types.MarketStatus) public marketStatus; // Market status.
     mapping(address => Types.Delta) public deltas; // Delta parameters for each market.
 
+    mapping(address => uint256) public supplyCaps;
+    mapping(address => uint256) public borrowCaps;
+
     /// CONTRACTS AND ADDRESSES ///
 
     IPositionsManager public positionsManager;

@@ -157,6 +157,18 @@ contract TestSetup is Config, Utils {
             address underlying = IVToken(_vToken).underlying();
             hevm.label(underlying, ERC20(underlying).symbol());
         }
+
+        // Set supply and borrow caps
+        address[] memory markets = new address[](1);
+        uint256[] memory supplyCaps = new uint256[](1);
+        uint256[] memory borrowCaps = new uint256[](1);
+
+        markets[0] = _vToken;
+        supplyCaps[0] = type(uint256).max; // No supply cap
+        borrowCaps[0] = 0; // No borrow cap
+
+        evoq.setMarketSupplyCaps(markets, supplyCaps);
+        evoq.setMarketBorrowCaps(markets, borrowCaps);
     }
 
     function initUsers() internal {

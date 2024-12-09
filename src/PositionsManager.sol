@@ -176,6 +176,12 @@ contract PositionsManager is IPositionsManager, MatchingEngine {
     /// @notice Thrown when someone tries to liquidate but the liquidation with this asset as debt is paused.
     error LiquidateBorrowIsPaused();
 
+    /// @notice Thrown when exceeding the supply cap.
+    error SupplyCapExceeded();
+
+    /// @notice Thrown when exceeding the borrow cap.
+    error BorrowCapExceeded();
+
     /// STRUCTS ///
 
     // Struct to avoid stack too deep.
@@ -250,6 +256,11 @@ contract PositionsManager is IPositionsManager, MatchingEngine {
 
         _updateP2PIndexes(_poolToken);
         _enterMarketIfNeeded(_poolToken, _onBehalf);
+
+        if (!_supplyAllowed(_poolToken, _amount)) {
+            revert SupplyCapExceeded();
+        }
+
         ERC20 underlyingToken = _getUnderlying(_poolToken);
         underlyingToken.safeTransferFrom(_from, address(this), _amount);
 
@@ -340,6 +351,11 @@ contract PositionsManager is IPositionsManager, MatchingEngine {
         if (_isLiquidatable(_borrower, _poolToken, 0, _amount)) {
             revert UnauthorisedBorrow();
         }
+
+        if (!_borrowAllowed(_poolToken, _amount)) {
+            revert BorrowCapExceeded();
+        }
+
         ERC20 underlyingToken = _getUnderlying(_poolToken);
         BorrowVars memory vars;
         vars.remainingToBorrow = _amount;

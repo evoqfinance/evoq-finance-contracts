@@ -85,34 +85,38 @@ contract Deploy is Script, Config {
         Types.MarketParameters memory defaultMarketParameters =
             Types.MarketParameters({reserveFactor: 1_000, p2pIndexCursor: 4_000});
         evoq.createMarket(vBnb, defaultMarketParameters);
+        evoq.createMarket(vBtc, defaultMarketParameters);
+        evoq.createMarket(vUsdt, defaultMarketParameters);
         evoq.createMarket(vUsdc, defaultMarketParameters);
         evoq.createMarket(vEth, defaultMarketParameters);
-        evoq.createMarket(vXvs, defaultMarketParameters);
-        evoq.createMarket(vMatic, defaultMarketParameters);
+        evoq.createMarket(vFdusd, defaultMarketParameters);
         // NOTE: add more markets, cause SimplePriceOracle to change address.
         // Changes affect frontend and script/.
 
         // Set market supply and borrow caps
-        address[] memory markets = new address[](5);
+        address[] memory markets = new address[](6);
         markets[0] = vBnb;
-        markets[1] = vUsdc;
-        markets[2] = vEth;
-        markets[3] = vXvs;
-        markets[4] = vMatic;
+        markets[1] = vBtc;
+        markets[2] = vUsdt;
+        markets[3] = vUsdc;
+        markets[4] = vEth;
+        markets[5] = vMatic;
 
-        uint256[] memory supplyCaps = new uint256[](5);
+        uint256[] memory supplyCaps = new uint256[](6);
         supplyCaps[0] = 2_672_000 ether;
-        supplyCaps[1] = 258_000_000 ether;
-        supplyCaps[2] = 100_000 ether;
-        supplyCaps[3] = 1_850_000 ether;
-        supplyCaps[4] = 5_500_000 ether;
+        supplyCaps[1] = 22_770 ether;
+        supplyCaps[2] = 500_000_000 ether;
+        supplyCaps[3] = 258_000_000 ether;
+        supplyCaps[4] = 100_000 ether;
+        supplyCaps[5] = 5_500_000 ether;
 
-        uint256[] memory borrowCaps = new uint256[](5);
+        uint256[] memory borrowCaps = new uint256[](6);
         borrowCaps[0] = 2_008_000 ether;
-        borrowCaps[1] = 200_000_000 ether;
-        borrowCaps[2] = 60_000 ether;
-        borrowCaps[3] = 0 ether;
-        borrowCaps[4] = 250_000 ether;
+        borrowCaps[1] = 3_531 ether;
+        borrowCaps[2] = 450_000_000 ether;
+        borrowCaps[3] = 200_000_000 ether;
+        borrowCaps[4] = 60_000 ether;
+        borrowCaps[5] = 250_000 ether;
 
         evoq.setMarketSupplyCaps(markets, supplyCaps);
         evoq.setMarketBorrowCaps(markets, borrowCaps);

@@ -118,8 +118,17 @@ contract Deploy is Script, Config {
         borrowCaps[4] = 60_000 ether;
         borrowCaps[5] = 80_000_000 ether;
 
+        uint8[] memory capModes = new uint8[](6);
+        capModes[0] = 1;
+        capModes[1] = 1;
+        capModes[2] = 1;
+        capModes[3] = 1;
+        capModes[4] = 1;
+        capModes[5] = 1;
+
         evoq.setMarketSupplyCaps(markets, supplyCaps);
         evoq.setMarketBorrowCaps(markets, borrowCaps);
+        evoq.setMarketCapModes(markets, capModes);
 
         IWBNBGateway wbnbGateway = new WBNBGateway(address(evoq), vBnb);
 

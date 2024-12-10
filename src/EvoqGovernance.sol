@@ -115,6 +115,9 @@ abstract contract EvoqGovernance is EvoqUtils {
     /// @notice Emitted when borrow cap for a pool token changes.
     event MarketBorrowCapSet(address indexed _poolToken, uint256 _newBorrowCap);
 
+    /// @notice Emitted when market suppply/borrow cap mode changes.
+    event MarketCapModeSet(address indexed _poolToken, uint8 _mode);
+
     /// ERRORS ///
 
     /// @notice Thrown when the creation of a market failed on Venus and kicks back Venus error code.
@@ -405,6 +408,20 @@ abstract contract EvoqGovernance is EvoqUtils {
             address poolToken = _poolTokens[i];
             borrowCaps[poolToken] = _newBorrowCaps[i];
             emit MarketBorrowCapSet(poolToken, _newBorrowCaps[i]);
+        }
+    }
+
+    /// @notice Sets the cap mode for a list of markets.
+    /// @param _poolTokens The addresses of the markets to update.
+    /// @param _modes The new cap modes for each market.
+    function setMarketCapModes(address[] calldata _poolTokens, uint8[] calldata _modes) external onlyOwner {
+        uint256 numberOfMarkets = _poolTokens.length;
+        require(numberOfMarkets != 0 && numberOfMarkets == _modes.length, "invalid input");
+
+        for (uint256 i; i < numberOfMarkets; ++i) {
+            address poolToken = _poolTokens[i];
+            capModes[poolToken] = _modes[i];
+            emit MarketCapModeSet(poolToken, _modes[i]);
         }
     }
 

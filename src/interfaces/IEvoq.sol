@@ -37,6 +37,9 @@ interface IEvoq {
     function treasuryVault() external view returns (address);
     function vBnb() external view returns (address);
     function wBnb() external view returns (address);
+    function supplyCaps(address) external view returns (uint256);
+    function borrowCaps(address) external view returns (uint256);
+    function capModes(address) external view returns (uint8);
 
     /// GETTERS ///
 
@@ -72,6 +75,7 @@ interface IEvoq {
     function createMarket(address _poolToken, Types.MarketParameters calldata _params) external;
     function setMarketSupplyCaps(address[] calldata _poolTokens, uint256[] calldata _newSupplyCaps) external;
     function setMarketBorrowCaps(address[] calldata _poolTokens, uint256[] calldata _newBorrowCaps) external;
+    function setMarketCapModes(address[] calldata _poolTokens, uint8[] calldata _newCapModes) external;
 
     /// USERS ///
 

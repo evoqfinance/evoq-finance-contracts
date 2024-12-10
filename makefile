@@ -50,10 +50,10 @@ verify:
 	./script/verify.sh
 
 storage-layout-generate:
-	@./script/storage-layout.sh generate snapshots/.storage-layout Evoq RewardsManager Lens
+	@./script/storage-layout.sh generate snapshot/.storage-layout Evoq
 
 storage-layout-check:
-	@./script/storage-layout.sh check snapshots/.storage-layout Evoq RewardsManager Lens
+	@./script/storage-layout.sh check snapshot/.storage-layout Evoq
 
 gas-report:
 	forge test --gas-report --fork-url ${RPC_URL} --fork-block-number ${FORK_BLOCK_NUMBER} -vvv | tee trace.ansi

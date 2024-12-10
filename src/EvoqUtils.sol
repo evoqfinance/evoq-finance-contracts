@@ -210,7 +210,12 @@ abstract contract EvoqUtils is EvoqStorage {
     function _supplyAllowed(address _poolToken, uint256 _amount) internal view returns (bool) {
         require(marketStatus[_poolToken].isCreated, "market not created");
 
-        uint256 supplyCap = supplyCaps[_poolToken];
+        uint256 supplyCap;
+        if (capModes[_poolToken] == 1) {
+            supplyCap = comptroller.supplyCaps(_poolToken);
+        } else {
+            supplyCap = supplyCaps[_poolToken];
+        }
         require(supplyCap != 0, "market supply cap is 0");
 
         Types.Delta storage delta = deltas[_poolToken];
@@ -237,7 +242,12 @@ abstract contract EvoqUtils is EvoqStorage {
         IVenusOracle oracle = IVenusOracle(comptroller.oracle());
         require(oracle.getUnderlyingPrice(_poolToken) != 0, "oracle failed");
 
-        uint256 borrowCap = borrowCaps[_poolToken];
+        uint256 borrowCap;
+        if (capModes[_poolToken] == 1) {
+            borrowCap = comptroller.borrowCaps(_poolToken);
+        } else {
+            borrowCap = borrowCaps[_poolToken];
+        }
 
         // If the borrow cap is 0, there is no cap.
         if (borrowCap != 0) {

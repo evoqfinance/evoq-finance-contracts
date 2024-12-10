@@ -33,6 +33,8 @@ interface IComptroller {
 
     function borrowCaps(address) external view returns (uint256);
 
+    function supplyCaps(address) external view returns (uint256);
+
     function markets(address) external view returns (bool isListed, uint256 collateralFactorMantissa, bool isVenus);
 
     function enterMarkets(address[] calldata vTokens) external returns (uint256[] memory);

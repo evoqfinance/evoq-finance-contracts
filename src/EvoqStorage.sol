@@ -50,8 +50,9 @@ abstract contract EvoqStorage is OwnableUpgradeable, ReentrancyGuardUpgradeable 
     mapping(address => Types.MarketStatus) public marketStatus; // Market status.
     mapping(address => Types.Delta) public deltas; // Delta parameters for each market.
 
-    mapping(address => uint256) public supplyCaps;
-    mapping(address => uint256) public borrowCaps;
+    mapping(address => uint256) public supplyCaps; // The supply cap for a given market if market cap mode is 0.
+    mapping(address => uint256) public borrowCaps; // The borrow cap for a given market if market cap mode is 0.
+    mapping(address => uint8) public capModes; // Determine if the cap is set to a fixed value or set to base protocol's value. 0 = fixed, 1 = base protocol.
 
     /// CONTRACTS AND ADDRESSES ///
 

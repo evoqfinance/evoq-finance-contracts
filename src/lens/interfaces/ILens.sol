@@ -82,6 +82,10 @@ interface ILens {
         view
         returns (uint256 p2pBorrowAmount, uint256 poolBorrowAmount);
 
+    function getMarketSupplyCap(address _poolToken) external view returns (uint256);
+
+    function getMarketBorrowCap(address _poolToken) external view returns (uint256);
+
     /// INDEXES ///
 
     function getCurrentP2PSupplyIndex(address _poolToken) external view returns (uint256);

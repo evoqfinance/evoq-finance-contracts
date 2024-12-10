@@ -27,34 +27,14 @@
 | deltas                   | mapping(address => struct Types.Delta)                             | 19   | 0      | 32    | src/Evoq.sol:Evoq |
 | supplyCaps               | mapping(address => uint256)                                        | 20   | 0      | 32    | src/Evoq.sol:Evoq |
 | borrowCaps               | mapping(address => uint256)                                        | 21   | 0      | 32    | src/Evoq.sol:Evoq |
-| positionsManager         | contract IPositionsManager                                         | 22   | 0      | 20    | src/Evoq.sol:Evoq |
-| rewardsManager           | contract IRewardsManager                                           | 23   | 0      | 20    | src/Evoq.sol:Evoq |
-| interestRatesManager     | contract IInterestRatesManager                                     | 24   | 0      | 20    | src/Evoq.sol:Evoq |
-| comptroller              | contract IComptroller                                              | 25   | 0      | 20    | src/Evoq.sol:Evoq |
-| treasuryVault            | address                                                            | 26   | 0      | 20    | src/Evoq.sol:Evoq |
-| vBnb                     | address                                                            | 27   | 0      | 20    | src/Evoq.sol:Evoq |
-| wBnb                     | address                                                            | 28   | 0      | 20    | src/Evoq.sol:Evoq |
-| lastBorrowBlock          | mapping(address => uint256)                                        | 29   | 0      | 32    | src/Evoq.sol:Evoq |
-| isClaimRewardsPaused     | bool                                                               | 30   | 0      | 1     | src/Evoq.sol:Evoq |
-| marketPauseStatus        | mapping(address => struct Types.MarketPauseStatus)                 | 31   | 0      | 32    | src/Evoq.sol:Evoq |
-
-=======================
-➡ RewardsManager
-=======================
-
-| Name                    | Type                                                     | Slot | Offset | Bytes | Contract                              |
-|-------------------------|----------------------------------------------------------|------|--------|-------|---------------------------------------|
-| userUnclaimedXvsRewards | mapping(address => uint256)                              | 0    | 0      | 32    | src/RewardsManager.sol:RewardsManager |
-| venusSupplierIndex      | mapping(address => mapping(address => uint256))          | 1    | 0      | 32    | src/RewardsManager.sol:RewardsManager |
-| venusBorrowerIndex      | mapping(address => mapping(address => uint256))          | 2    | 0      | 32    | src/RewardsManager.sol:RewardsManager |
-| localXvsSupplyState     | mapping(address => struct IComptroller.VenusMarketState) | 3    | 0      | 32    | src/RewardsManager.sol:RewardsManager |
-| localXvsBorrowState     | mapping(address => struct IComptroller.VenusMarketState) | 4    | 0      | 32    | src/RewardsManager.sol:RewardsManager |
-| evoq                    | contract IEvoq                                           | 5    | 0      | 20    | src/RewardsManager.sol:RewardsManager |
-| comptroller             | contract IComptroller                                    | 6    | 0      | 20    | src/RewardsManager.sol:RewardsManager |
-
-=======================
-➡ Lens
-=======================
-
-| Name | Type | Slot | Offset | Bytes | Contract |
-|------|------|------|--------|-------|----------|
+| capModes                 | mapping(address => uint8)                                          | 22   | 0      | 32    | src/Evoq.sol:Evoq |
+| positionsManager         | contract IPositionsManager                                         | 23   | 0      | 20    | src/Evoq.sol:Evoq |
+| rewardsManager           | contract IRewardsManager                                           | 24   | 0      | 20    | src/Evoq.sol:Evoq |
+| interestRatesManager     | contract IInterestRatesManager                                     | 25   | 0      | 20    | src/Evoq.sol:Evoq |
+| comptroller              | contract IComptroller                                              | 26   | 0      | 20    | src/Evoq.sol:Evoq |
+| treasuryVault            | address                                                            | 27   | 0      | 20    | src/Evoq.sol:Evoq |
+| vBnb                     | address                                                            | 28   | 0      | 20    | src/Evoq.sol:Evoq |
+| wBnb                     | address                                                            | 29   | 0      | 20    | src/Evoq.sol:Evoq |
+| lastBorrowBlock          | mapping(address => uint256)                                        | 30   | 0      | 32    | src/Evoq.sol:Evoq |
+| isClaimRewardsPaused     | bool                                                               | 31   | 0      | 1     | src/Evoq.sol:Evoq |
+| marketPauseStatus        | mapping(address => struct Types.MarketPauseStatus)                 | 32   | 0      | 32    | src/Evoq.sol:Evoq |

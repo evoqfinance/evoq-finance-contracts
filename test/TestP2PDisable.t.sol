@@ -101,7 +101,7 @@ contract TestP2PDisable is TestSetup {
         // Withdraw and repay peer-to-peer matched positions.
         supplier1.withdraw(vDai, amount - 1e9);
         // Bypass the borrow repay in the same block by overwritting the storage slot lastBorrowBlock[borrower1].
-        hevm.store(address(evoq), keccak256(abi.encode(address(borrower1), 29)), 0);
+        hevm.store(address(evoq), keccak256(abi.encode(address(borrower1), 30)), 0);
         borrower1.approve(dai, type(uint256).max);
         borrower1.repay(vDai, type(uint256).max);
     }

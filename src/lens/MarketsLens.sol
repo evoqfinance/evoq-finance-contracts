@@ -144,4 +144,20 @@ abstract contract MarketsLens is RatesLens {
         (p2pBorrowAmount, poolBorrowAmount) =
             _getMarketBorrow(_poolToken, indexes.p2pBorrowIndex, indexes.poolBorrowIndex, delta);
     }
+
+    function getMarketSupplyCap(address _poolToken) public view returns (uint256) {
+        if (evoq.capModes(_poolToken) == 1) {
+            return comptroller.supplyCaps(_poolToken);
+        } else {
+            return evoq.supplyCaps(_poolToken);
+        }
+    }
+
+    function getMarketBorrowCap(address _poolToken) public view returns (uint256) {
+        if (evoq.capModes(_poolToken) == 1) {
+            return comptroller.borrowCaps(_poolToken);
+        } else {
+            return evoq.borrowCaps(_poolToken);
+        }
+    }
 }

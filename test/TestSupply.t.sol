@@ -326,7 +326,7 @@ contract TestSupply is TestSetup {
         setDefaultMaxGasForMatchingHelper(0, 0, 0, 0);
 
         // Bypass the borrow repay in the same block by overwrittting the storage slot lastBorrowBlock[borrower1].
-        hevm.store(address(evoq), keccak256(abi.encode(address(borrower1), 29)), 0);
+        hevm.store(address(evoq), keccak256(abi.encode(address(borrower1), 30)), 0);
 
         // Create delta.
         borrower1.repay(vDai, type(uint256).max);

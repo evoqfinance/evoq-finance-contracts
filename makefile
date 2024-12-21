@@ -25,7 +25,6 @@ test-%:
 
 # deploy contracts to local fork and run setup scripts for easy testing
 deploy-local:
-	./script/setup-before.sh && \
 	forge script script/DeployLocal.s.sol:Deploy --rpc-url 127.0.0.1:8545 --private-key ${PRIV_KEY} --broadcast -vvv && \
 	./script/setup-after.sh
 

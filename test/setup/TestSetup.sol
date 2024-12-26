@@ -193,6 +193,7 @@ contract TestSetup is Config, Utils {
     }
 
     function fillUserBalances(User _user) internal {
+        // deal(address(_user), INITIAL_BALANCE * WAD);
         deal(wBnb, address(_user), INITIAL_BALANCE * WAD);
         deal(btcb, address(_user), INITIAL_BALANCE * WAD);
         deal(usdt, address(_user), INITIAL_BALANCE * WAD);

@@ -8,6 +8,6 @@ contract TestWBNBGateway is TestSetup {
 
     function testSupplyBNB() public {
         uint256 supplyAmount = 1 ether;
-        supplier1.supplyBNB{value: supplyAmount}();
+        supplier1.supplyBNB{value: supplyAmount}(address(supplier1));
     }
 }

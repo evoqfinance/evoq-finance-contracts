@@ -329,6 +329,30 @@ contract TestWithdraw is TestSetup {
         }
     }
 
+    function testWithdrawOnBehalf() public {
+        uint256 bnbAmount = 1 ether;
+
+        supplier1.supplyBNB{value: bnbAmount}(address(supplier1));
+
+        (, uint256 onPool) = evoq.supplyBalanceInOf(vBnb, address(supplier1));
+        testEquality(onPool, bnbAmount.div(IVToken(vBnb).exchangeRateCurrent()));
+
+        // supplier1 has not approved wbnbgateway to be manager yet.
+        hevm.expectRevert(Evoq.PermissionDenied.selector);
+        supplier1.withdrawBNB(bnbAmount, address(supplier1));
+
+        // borrower1 (attacker) is not manager.
+        hevm.expectRevert(Evoq.PermissionDenied.selector);
+        borrower1.withdraw(vBnb, bnbAmount, address(supplier1), address(borrower1));
+
+        // after approve manager, supplier1 can withdraw BNB using wbnbGateway.
+        supplier1.approveManager(address(wbnbGateway), true);
+        supplier1.withdrawBNB(bnbAmount, address(supplier1));
+
+        (, onPool) = evoq.supplyBalanceInOf(vBnb, address(supplier1));
+        testEquality(onPool, 0);
+    }
+
     struct Vars {
         uint256 LR;
         uint256 BPY;

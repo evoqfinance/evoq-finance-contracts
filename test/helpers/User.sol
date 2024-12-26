@@ -50,6 +50,10 @@ contract User {
         comptroller.claimVenus(address(this), assets);
     }
 
+    function transfer(address _recepient, uint256 _amount) external {
+        payable(_recepient).transfer(_amount);
+    }
+
     function balanceOf(address _token) external view returns (uint256) {
         return ERC20(_token).balanceOf(address(this));
     }
@@ -90,12 +94,20 @@ contract User {
         evoq.borrow(_poolToken, _amount);
     }
 
+    function borrow(address _poolToken, uint256 _amount, address _borrower, address _receiver) external {
+        evoq.borrow(_poolToken, _amount, _borrower, _receiver);
+    }
+
     function borrow(address _poolToken, uint256 _amount, uint256 _maxGasForMatching) external {
         evoq.borrow(_poolToken, _amount, address(this), address(this), _maxGasForMatching);
     }
 
     function withdraw(address _poolToken, uint256 _amount) external {
         evoq.withdraw(_poolToken, _amount);
+    }
+
+    function withdraw(address _poolToken, uint256 _amount, address _supplier, address _receiver) external {
+        evoq.withdraw(_poolToken, _amount, _supplier, _receiver);
     }
 
     function withdraw(address _poolToken, uint256 _amount, address _receiver) external {
@@ -160,8 +172,24 @@ contract User {
         evoq.setIsLiquidateBorrowPaused(_poolToken, _isPaused);
     }
 
+    function approveManager(address _manager, bool _isAllowed) external {
+        evoq.approveManager(_manager, _isAllowed);
+    }
+
     // extension
-    function supplyBNB() external payable {
-        wbnbGateway.supplyBNB{value: msg.value}(address(this));
+    function supplyBNB(address _onBehalf) external payable {
+        wbnbGateway.supplyBNB{value: msg.value}(_onBehalf);
+    }
+
+    function borrowBNB(uint256 _amount, address _receiver) external {
+        wbnbGateway.borrowBNB(_amount, _receiver);
+    }
+
+    function repayBNB(address _onBehalf) external payable {
+        wbnbGateway.repayBNB{value: msg.value}(_onBehalf);
+    }
+
+    function withdrawBNB(uint256 _amount, address _receiver) external {
+        wbnbGateway.withdrawBNB(_amount, _receiver);
     }
 }

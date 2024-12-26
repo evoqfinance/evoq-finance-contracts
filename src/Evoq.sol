@@ -19,10 +19,16 @@ contract Evoq is EvoqGovernance {
     /// @param _traded Whether or not the pool tokens are traded against Evoq tokens.
     event RewardsClaimed(address indexed _user, uint256 _amountClaimed, bool indexed _traded);
 
+    /// @notice Emitted when a `manager` is approved or unapproved to act on behalf of a `delegator`.
+    event ManagerApproval(address indexed delegator, address indexed manager, bool isAllowed);
+
     /// ERRORS ///
 
     /// @notice Thrown when claiming rewards is paused.
     error ClaimRewardsPaused();
+
+    /// @notice Thrown when the manager is not approved by the delegator.
+    error PermissionDenied();
 
     /// EXTERNAL ///
 
@@ -191,6 +197,8 @@ contract Evoq is EvoqGovernance {
         address _receiver,
         uint256 _maxGasForMatching
     ) internal returns (uint256) {
+        _validatePermission(_borrower, msg.sender);
+
         bytes memory returnData = address(positionsManager).functionDelegateCall(
             abi.encodeWithSelector(
                 IPositionsManager.borrowLogic.selector, _poolToken, _amount, _borrower, _receiver, _maxGasForMatching
@@ -207,6 +215,8 @@ contract Evoq is EvoqGovernance {
         address _receiver,
         uint256 _maxGasForMatching
     ) internal returns (uint256) {
+        _validatePermission(_supplier, msg.sender);
+
         bytes memory returnData = address(positionsManager).functionDelegateCall(
             abi.encodeWithSelector(
                 IPositionsManager.withdrawLogic.selector, _poolToken, _amount, _supplier, _receiver, _maxGasForMatching
@@ -228,5 +238,31 @@ contract Evoq is EvoqGovernance {
             )
         );
         return (abi.decode(returnData, (uint256)));
+    }
+
+    /// @notice Approves a `manager` to borrow/withdraw on behalf of the sender.
+    /// @param manager The address of the manager.
+    /// @param isAllowed Whether `manager` is allowed to manage `msg.sender`'s position or not.
+    function approveManager(address manager, bool isAllowed) external {
+        _approveManager(msg.sender, manager, isAllowed);
+    }
+
+    /// @dev Approves a `manager` to borrow/withdraw on behalf of the `delegator`.
+    /// @param delegator The address of the delegator.
+    /// @param manager The address of the manager.
+    /// @param isAllowed Whether `manager` is allowed to manage `delegator`'s position or not.
+    function _approveManager(address delegator, address manager, bool isAllowed) internal {
+        _isManagedBy[delegator][manager] = isAllowed;
+        emit ManagerApproval(delegator, manager, isAllowed);
+    }
+
+    /// @notice Returns whether `manager` is a manager of `delegator`.
+    function isManagedBy(address delegator, address manager) external view returns (bool) {
+        return _isManagedBy[delegator][manager];
+    }
+
+    /// @dev Validates the manager's permission.
+    function _validatePermission(address delegator, address manager) internal view {
+        if (!(delegator == manager || _isManagedBy[delegator][manager])) revert PermissionDenied();
     }
 }

@@ -39,6 +39,9 @@ abstract contract EvoqStorage is OwnableUpgradeable, ReentrancyGuardUpgradeable 
     mapping(address => mapping(address => bool)) public userMembership; // Whether the user is in the market or not. vToken -> user -> bool.
     mapping(address => address[]) public enteredMarkets; // The markets entered by a user. user -> vTokens.
 
+    /// @dev Users allowances to manage other users' accounts. delegator => manager => isManagedBy
+    mapping(address => mapping(address => bool)) internal _isManagedBy;
+
     /// MARKETS STORAGE ///
 
     address[] internal marketsCreated; // Keeps track of the created markets.

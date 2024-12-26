@@ -17,24 +17,25 @@
 | borrowBalanceInOf        | mapping(address => mapping(address => struct Types.BorrowBalance)) | 9    | 0      | 32    | src/Evoq.sol:Evoq |
 | userMembership           | mapping(address => mapping(address => bool))                       | 10   | 0      | 32    | src/Evoq.sol:Evoq |
 | enteredMarkets           | mapping(address => address[])                                      | 11   | 0      | 32    | src/Evoq.sol:Evoq |
-| marketsCreated           | address[]                                                          | 12   | 0      | 32    | src/Evoq.sol:Evoq |
-| p2pDisabled              | mapping(address => bool)                                           | 13   | 0      | 32    | src/Evoq.sol:Evoq |
-| p2pSupplyIndex           | mapping(address => uint256)                                        | 14   | 0      | 32    | src/Evoq.sol:Evoq |
-| p2pBorrowIndex           | mapping(address => uint256)                                        | 15   | 0      | 32    | src/Evoq.sol:Evoq |
-| lastPoolIndexes          | mapping(address => struct Types.LastPoolIndexes)                   | 16   | 0      | 32    | src/Evoq.sol:Evoq |
-| marketParameters         | mapping(address => struct Types.MarketParameters)                  | 17   | 0      | 32    | src/Evoq.sol:Evoq |
-| marketStatus             | mapping(address => struct Types.MarketStatus)                      | 18   | 0      | 32    | src/Evoq.sol:Evoq |
-| deltas                   | mapping(address => struct Types.Delta)                             | 19   | 0      | 32    | src/Evoq.sol:Evoq |
-| supplyCaps               | mapping(address => uint256)                                        | 20   | 0      | 32    | src/Evoq.sol:Evoq |
-| borrowCaps               | mapping(address => uint256)                                        | 21   | 0      | 32    | src/Evoq.sol:Evoq |
-| capModes                 | mapping(address => uint8)                                          | 22   | 0      | 32    | src/Evoq.sol:Evoq |
-| positionsManager         | contract IPositionsManager                                         | 23   | 0      | 20    | src/Evoq.sol:Evoq |
-| rewardsManager           | contract IRewardsManager                                           | 24   | 0      | 20    | src/Evoq.sol:Evoq |
-| interestRatesManager     | contract IInterestRatesManager                                     | 25   | 0      | 20    | src/Evoq.sol:Evoq |
-| comptroller              | contract IComptroller                                              | 26   | 0      | 20    | src/Evoq.sol:Evoq |
-| treasuryVault            | address                                                            | 27   | 0      | 20    | src/Evoq.sol:Evoq |
-| vBnb                     | address                                                            | 28   | 0      | 20    | src/Evoq.sol:Evoq |
-| wBnb                     | address                                                            | 29   | 0      | 20    | src/Evoq.sol:Evoq |
-| lastBorrowBlock          | mapping(address => uint256)                                        | 30   | 0      | 32    | src/Evoq.sol:Evoq |
-| isClaimRewardsPaused     | bool                                                               | 31   | 0      | 1     | src/Evoq.sol:Evoq |
-| marketPauseStatus        | mapping(address => struct Types.MarketPauseStatus)                 | 32   | 0      | 32    | src/Evoq.sol:Evoq |
+| _isManagedBy             | mapping(address => mapping(address => bool))                       | 12   | 0      | 32    | src/Evoq.sol:Evoq |
+| marketsCreated           | address[]                                                          | 13   | 0      | 32    | src/Evoq.sol:Evoq |
+| p2pDisabled              | mapping(address => bool)                                           | 14   | 0      | 32    | src/Evoq.sol:Evoq |
+| p2pSupplyIndex           | mapping(address => uint256)                                        | 15   | 0      | 32    | src/Evoq.sol:Evoq |
+| p2pBorrowIndex           | mapping(address => uint256)                                        | 16   | 0      | 32    | src/Evoq.sol:Evoq |
+| lastPoolIndexes          | mapping(address => struct Types.LastPoolIndexes)                   | 17   | 0      | 32    | src/Evoq.sol:Evoq |
+| marketParameters         | mapping(address => struct Types.MarketParameters)                  | 18   | 0      | 32    | src/Evoq.sol:Evoq |
+| marketStatus             | mapping(address => struct Types.MarketStatus)                      | 19   | 0      | 32    | src/Evoq.sol:Evoq |
+| deltas                   | mapping(address => struct Types.Delta)                             | 20   | 0      | 32    | src/Evoq.sol:Evoq |
+| supplyCaps               | mapping(address => uint256)                                        | 21   | 0      | 32    | src/Evoq.sol:Evoq |
+| borrowCaps               | mapping(address => uint256)                                        | 22   | 0      | 32    | src/Evoq.sol:Evoq |
+| capModes                 | mapping(address => uint8)                                          | 23   | 0      | 32    | src/Evoq.sol:Evoq |
+| positionsManager         | contract IPositionsManager                                         | 24   | 0      | 20    | src/Evoq.sol:Evoq |
+| rewardsManager           | contract IRewardsManager                                           | 25   | 0      | 20    | src/Evoq.sol:Evoq |
+| interestRatesManager     | contract IInterestRatesManager                                     | 26   | 0      | 20    | src/Evoq.sol:Evoq |
+| comptroller              | contract IComptroller                                              | 27   | 0      | 20    | src/Evoq.sol:Evoq |
+| treasuryVault            | address                                                            | 28   | 0      | 20    | src/Evoq.sol:Evoq |
+| vBnb                     | address                                                            | 29   | 0      | 20    | src/Evoq.sol:Evoq |
+| wBnb                     | address                                                            | 30   | 0      | 20    | src/Evoq.sol:Evoq |
+| lastBorrowBlock          | mapping(address => uint256)                                        | 31   | 0      | 32    | src/Evoq.sol:Evoq |
+| isClaimRewardsPaused     | bool                                                               | 32   | 0      | 1     | src/Evoq.sol:Evoq |
+| marketPauseStatus        | mapping(address => struct Types.MarketPauseStatus)                 | 33   | 0      | 32    | src/Evoq.sol:Evoq |

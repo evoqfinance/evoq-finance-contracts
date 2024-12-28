@@ -105,4 +105,7 @@ interface IEvoq {
         external
         returns (uint256 repaid, uint256 seized);
     function claimRewards(address[] calldata _vTokenAddresses) external returns (uint256 claimedAmount);
+
+    function approveManager(address manager, bool isAllowed) external;
+    function isManagedBy(address delegator, address manager) external view returns (bool);
 }

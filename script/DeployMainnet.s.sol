@@ -83,7 +83,7 @@ contract Deploy is Script, Config {
 
         // Create markets
         Types.MarketParameters memory defaultMarketParameters =
-            Types.MarketParameters({reserveFactor: 1_000, p2pIndexCursor: 4_000});
+            Types.MarketParameters({reserveFactor: 0, p2pIndexCursor: 4_000});
         evoq.createMarket(vBnb, defaultMarketParameters);
         evoq.createMarket(vBtc, defaultMarketParameters);
         evoq.createMarket(vUsdt, defaultMarketParameters);

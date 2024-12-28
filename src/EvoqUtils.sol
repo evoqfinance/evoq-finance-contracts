@@ -208,8 +208,6 @@ abstract contract EvoqUtils is EvoqStorage {
 
     /// @dev Checks if the user can supply without exceeding the supply cap.
     function _supplyAllowed(address _poolToken, uint256 _amount) internal view returns (bool) {
-        require(marketStatus[_poolToken].isCreated, "market not created");
-
         uint256 supplyCap;
         if (capModes[_poolToken] == 1) {
             supplyCap = comptroller.supplyCaps(_poolToken);
@@ -237,8 +235,6 @@ abstract contract EvoqUtils is EvoqStorage {
 
     /// @dev Checks if the user can borrow without exceeding the borrow cap.
     function _borrowAllowed(address _poolToken, uint256 _amount) internal view returns (bool) {
-        require(marketStatus[_poolToken].isCreated, "market not created");
-
         IVenusOracle oracle = IVenusOracle(comptroller.oracle());
         require(oracle.getUnderlyingPrice(_poolToken) != 0, "oracle failed");
 

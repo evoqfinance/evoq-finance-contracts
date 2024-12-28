@@ -146,6 +146,9 @@ contract PositionsManager is IPositionsManager, MatchingEngine {
     /// @notice Thrown when the user does not have enough collateral for the borrow.
     error UnauthorisedBorrow();
 
+    /// @notice Thrown when the manager is not approved by the delegator.
+    error PermissionDenied();
+
     /// @notice Thrown when the amount desired for a withdrawal is too small.
     error WithdrawTooSmall();
 
@@ -344,6 +347,8 @@ contract PositionsManager is IPositionsManager, MatchingEngine {
             revert BorrowIsPaused();
         }
 
+        _validatePermission(_borrower, msg.sender);
+
         _updateP2PIndexes(_poolToken);
         _enterMarketIfNeeded(_poolToken, _borrower);
         lastBorrowBlock[_borrower] = block.number;
@@ -444,6 +449,8 @@ contract PositionsManager is IPositionsManager, MatchingEngine {
         if (!userMembership[_poolToken][_supplier]) {
             revert UserNotMemberOfMarket();
         }
+
+        _validatePermission(_supplier, msg.sender);
 
         _updateP2PIndexes(_poolToken);
         uint256 toWithdraw = Math.min(_getUserSupplyBalanceInOf(_poolToken, _supplier), _amount);
@@ -1002,5 +1009,10 @@ contract PositionsManager is IPositionsManager, MatchingEngine {
                 closeFactor = comptroller.closeFactorMantissa();
             }
         }
+    }
+
+    /// @dev Validates the manager's permission.
+    function _validatePermission(address delegator, address manager) internal view {
+        if (!(delegator == manager || _isManagedBy[delegator][manager])) revert PermissionDenied();
     }
 }

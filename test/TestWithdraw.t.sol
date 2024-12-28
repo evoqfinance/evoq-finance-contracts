@@ -338,11 +338,11 @@ contract TestWithdraw is TestSetup {
         testEquality(onPool, bnbAmount.div(IVToken(vBnb).exchangeRateCurrent()));
 
         // supplier1 has not approved wbnbgateway to be manager yet.
-        hevm.expectRevert(Evoq.PermissionDenied.selector);
+        hevm.expectRevert(PositionsManager.PermissionDenied.selector);
         supplier1.withdrawBNB(bnbAmount, address(supplier1));
 
         // borrower1 (attacker) is not manager.
-        hevm.expectRevert(Evoq.PermissionDenied.selector);
+        hevm.expectRevert(PositionsManager.PermissionDenied.selector);
         borrower1.withdraw(vBnb, bnbAmount, address(supplier1), address(borrower1));
 
         // after approve manager, supplier1 can withdraw BNB using wbnbGateway.

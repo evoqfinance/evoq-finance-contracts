@@ -222,6 +222,7 @@ abstract contract EvoqGovernance is EvoqUtils {
     /// @notice Sets the `treasuryVault`.
     /// @param _treasuryVault The address of the new `treasuryVault`.
     function setTreasuryVault(address _treasuryVault) external onlyOwner {
+        if (address(_treasuryVault) == address(0)) revert ZeroAddress();
         treasuryVault = _treasuryVault;
         emit TreasuryVaultSet(_treasuryVault);
     }

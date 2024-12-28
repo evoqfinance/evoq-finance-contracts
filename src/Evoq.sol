@@ -27,9 +27,6 @@ contract Evoq is EvoqGovernance {
     /// @notice Thrown when claiming rewards is paused.
     error ClaimRewardsPaused();
 
-    /// @notice Thrown when the manager is not approved by the delegator.
-    error PermissionDenied();
-
     /// EXTERNAL ///
 
     /// @notice Supplies underlying tokens to a specific market.
@@ -197,8 +194,6 @@ contract Evoq is EvoqGovernance {
         address _receiver,
         uint256 _maxGasForMatching
     ) internal returns (uint256) {
-        _validatePermission(_borrower, msg.sender);
-
         bytes memory returnData = address(positionsManager).functionDelegateCall(
             abi.encodeWithSelector(
                 IPositionsManager.borrowLogic.selector, _poolToken, _amount, _borrower, _receiver, _maxGasForMatching
@@ -215,8 +210,6 @@ contract Evoq is EvoqGovernance {
         address _receiver,
         uint256 _maxGasForMatching
     ) internal returns (uint256) {
-        _validatePermission(_supplier, msg.sender);
-
         bytes memory returnData = address(positionsManager).functionDelegateCall(
             abi.encodeWithSelector(
                 IPositionsManager.withdrawLogic.selector, _poolToken, _amount, _supplier, _receiver, _maxGasForMatching
@@ -259,10 +252,5 @@ contract Evoq is EvoqGovernance {
     /// @notice Returns whether `manager` is a manager of `delegator`.
     function isManagedBy(address delegator, address manager) external view returns (bool) {
         return _isManagedBy[delegator][manager];
-    }
-
-    /// @dev Validates the manager's permission.
-    function _validatePermission(address delegator, address manager) internal view {
-        if (!(delegator == manager || _isManagedBy[delegator][manager])) revert PermissionDenied();
     }
 }

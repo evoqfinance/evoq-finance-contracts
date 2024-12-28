@@ -34,15 +34,15 @@ contract TestFees is TestSetup {
         assertLt(balanceBefore, balanceAfter);
     }
 
-    function testShouldRevertWhenClaimingToZeroAddress() public {
-        // Set treasury vault to 0x.
-        evoq.setTreasuryVault(address(0));
+    // function testShouldRevertWhenClaimingToZeroAddress() public {
+    //     // Set treasury vault to 0x.
+    //     evoq.setTreasuryVault(address(0));
 
-        _createFeeOnEvoq(1_000);
+    //     _createFeeOnEvoq(1_000);
 
-        hevm.expectRevert(abi.encodeWithSignature("ZeroAddress()"));
-        evoq.claimToTreasury(vDaiArray, amountArray);
-    }
+    //     hevm.expectRevert(abi.encodeWithSignature("ZeroAddress()"));
+    //     evoq.claimToTreasury(vDaiArray, amountArray);
+    // }
 
     function testShouldCollectTheRightAmountOfFees() public {
         uint16 reserveFactor = 1_000;

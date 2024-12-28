@@ -199,7 +199,7 @@ contract TestBorrow is TestSetup {
         supplier1.borrow(vUsdc, 10 ether, address(supplier1), address(supplier1));
 
         // supplier1 has not approved wbnbgateway to be manager yet.
-        hevm.expectRevert(Evoq.PermissionDenied.selector);
+        hevm.expectRevert(PositionsManager.PermissionDenied.selector);
         supplier1.borrowBNB(bnbAmount, address(supplier1));
 
         // borrower1 need to have some collateral, otherwise the borrow will revert because of insufficient collateral.
@@ -207,7 +207,7 @@ contract TestBorrow is TestSetup {
         borrower1.supply(vUsdc, 2 * amount);
 
         // borrower1 (attacker) is not the manager of supplier1.
-        hevm.expectRevert(Evoq.PermissionDenied.selector);
+        hevm.expectRevert(PositionsManager.PermissionDenied.selector);
         borrower1.borrow(vUsdt, amount, address(supplier1), address(borrower1));
 
         // after approve manager, supplier1 can borrow BNB using wbnbGateway.

@@ -245,21 +245,20 @@ abstract contract EvoqUtils is EvoqStorage {
             borrowCap = borrowCaps[_poolToken];
         }
 
-        // If the borrow cap is 0, there is no cap.
-        if (borrowCap != 0) {
-            Types.Delta storage delta = deltas[_poolToken];
-            uint256 _p2pBorrowIndex = p2pBorrowIndex[_poolToken];
-            uint256 _poolBorrowIndex = IVToken(_poolToken).borrowIndex();
-            uint256 p2pBorrowAmount =
-                delta.p2pBorrowAmount.mul(_p2pBorrowIndex).zeroFloorSub(delta.p2pBorrowDelta.mul(_poolBorrowIndex));
-            uint256 poolBorrowAmount = IVToken(_poolToken).borrowBalanceStored(address(this));
+        require(borrowCap != 0, "borrowCap is 0");
 
-            uint256 totalBorrow = p2pBorrowAmount + poolBorrowAmount;
-            uint256 nextTotalBorrow = totalBorrow + _amount;
+        Types.Delta storage delta = deltas[_poolToken];
+        uint256 _p2pBorrowIndex = p2pBorrowIndex[_poolToken];
+        uint256 _poolBorrowIndex = IVToken(_poolToken).borrowIndex();
+        uint256 p2pBorrowAmount =
+            delta.p2pBorrowAmount.mul(_p2pBorrowIndex).zeroFloorSub(delta.p2pBorrowDelta.mul(_poolBorrowIndex));
+        uint256 poolBorrowAmount = IVToken(_poolToken).borrowBalanceStored(address(this));
 
-            if (nextTotalBorrow > borrowCap) {
-                return false;
-            }
+        uint256 totalBorrow = p2pBorrowAmount + poolBorrowAmount;
+        uint256 nextTotalBorrow = totalBorrow + _amount;
+
+        if (nextTotalBorrow > borrowCap) {
+            return false;
         }
 
         return true;

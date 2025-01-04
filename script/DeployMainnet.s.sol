@@ -35,9 +35,7 @@ contract Deploy is Script, Config {
         vm.label(vUsdt, "vUSDT");
         vm.label(vUsdc, "vUSDC");
         vm.label(vEth, "vETH");
-        vm.label(vWbeth, "vWBETH");
         vm.label(vFdusd, "vFDUSD");
-        vm.label(vCake, "vCAKE");
         vm.label(wBnb, "wBNB");
 
         vm.startBroadcast();
@@ -98,7 +96,7 @@ contract Deploy is Script, Config {
         markets[2] = vUsdt;
         markets[3] = vUsdc;
         markets[4] = vEth;
-        markets[5] = vMatic;
+        markets[5] = vFdusd;
 
         uint256[] memory supplyCaps = new uint256[](6);
         supplyCaps[0] = 2_672_000 ether;
@@ -106,7 +104,7 @@ contract Deploy is Script, Config {
         supplyCaps[2] = 500_000_000 ether;
         supplyCaps[3] = 258_000_000 ether;
         supplyCaps[4] = 100_000 ether;
-        supplyCaps[5] = 5_500_000 ether;
+        supplyCaps[5] = 100_000_000 ether;
 
         uint256[] memory borrowCaps = new uint256[](6);
         borrowCaps[0] = 2_008_000 ether;
@@ -114,7 +112,7 @@ contract Deploy is Script, Config {
         borrowCaps[2] = 450_000_000 ether;
         borrowCaps[3] = 200_000_000 ether;
         borrowCaps[4] = 60_000 ether;
-        borrowCaps[5] = 250_000 ether;
+        borrowCaps[5] = 80_000_000 ether;
 
         uint8[] memory capModes = new uint8[](6);
         capModes[0] = 1;

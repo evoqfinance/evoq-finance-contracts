@@ -13,7 +13,7 @@ contract ListDeployedAddresses is Script {
             string.concat(vm.projectRoot(), "/broadcast/DeployLocal.s.sol/", chainId, "/run-latest.json");
         string memory deployData = vm.readFile(path);
 
-        // overset the number because don't know how to get the exact number of deployed contracts
+        // TODO: overset the number because don't know how to get the exact number of deployed contracts.
         uint256 numOfContracts = 30;
         for (uint256 j; j < numOfContracts; j++) {
             string memory txType = abi.decode(

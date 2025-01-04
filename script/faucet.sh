@@ -5,7 +5,8 @@ WBNB=0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c
 
 USDC_WHALE=0x554b52bf57b387fd09d6644368c5a8aacaaf5ae0
 BNB_WHALE=0xF977814e90dA44bFA03b6295A0616a897441aceC
-ME2=0x23618e81E3f5cdF7f54C3d65f7FBc0aBf5B21E8f
+ACCOUNT_8=0x23618e81E3f5cdF7f54C3d65f7FBc0aBf5B21E8f
+ACCOUNT_8_PRIV=0xdbda1821b80551c9d65939329250298aa3472ba22feea921c0cf5d620ea67b97
 
 TARGET_WALLET=$1
 USDC_SEND_AMOUNT=10000"000000000000000000" # use string to avoid overflow
@@ -21,5 +22,5 @@ cast rpc anvil_impersonateAccount $BNB_WHALE --rpc-url $RPC_URL
 cast send $TARGET_WALLET --from $BNB_WHALE --value $BNB_SEND_AMOUNT --unlocked --rpc-url $RPC_URL
 
 # # send WBNB
-cast send $WBNB --from $ME2 "deposit()" --value $WBNB_SEND_AMOUNT --private-key 0xdbda1821b80551c9d65939329250298aa3472ba22feea921c0cf5d620ea67b97 --rpc-url $RPC_URL
-cast send $WBNB --from $ME2 "transfer(address,uint256)(bool)" $TARGET_WALLET $WBNB_SEND_AMOUNT --unlocked --rpc-url $RPC_URL
+cast send $WBNB --from $ACCOUNT_8 "deposit()" --value $WBNB_SEND_AMOUNT --private-key $ACCOUNT_8_PRIV --rpc-url $RPC_URL
+cast send $WBNB --from $ACCOUNT_8 "transfer(address,uint256)(bool)" $TARGET_WALLET $WBNB_SEND_AMOUNT --unlocked --rpc-url $RPC_URL

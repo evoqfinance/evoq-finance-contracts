@@ -35,9 +35,7 @@ contract Deploy is Script, Config {
         vm.label(vUsdt, "vUSDT");
         vm.label(vUsdc, "vUSDC");
         vm.label(vEth, "vETH");
-        vm.label(vWbeth, "vWBETH");
         vm.label(vFdusd, "vFDUSD");
-        vm.label(vCake, "vCAKE");
         vm.label(wBnb, "wBNB");
 
         vm.startBroadcast();
@@ -91,7 +89,7 @@ contract Deploy is Script, Config {
         evoq.createMarket(vEth, defaultMarketParameters);
         evoq.createMarket(vFdusd, defaultMarketParameters);
         // NOTE: add more markets, cause SimplePriceOracle to change address.
-        // Changes affect frontend and script/.
+        // Changes affect frontend and script/setup-after.sh
 
         // Set market supply and borrow caps
         address[] memory markets = new address[](6);
@@ -135,31 +133,13 @@ contract Deploy is Script, Config {
         // ====== DEV ==========
 
         // setup fake price oracle for local dev, because mainnet oracle is too strict with the price fetching
+        // also see script/setup-after.sh
         address[] memory pools = evoq.getAllMarkets();
         SimplePriceOracle customOracle = new SimplePriceOracle();
         for (uint256 i = 0; i < pools.length; i++) {
             customOracle.setUnderlyingPrice(pools[i], oracle.getUnderlyingPrice(pools[i]));
         }
 
-        // Init some value for development
-        // WBNB(wBnb).deposit{value: 1000 ether}(); // get wBNB
-
-        // approve(usdc, address(evoq), type(uint256).max);
-        // evoq.supply(vUsdc, 1000 ether);
-        // evoq.borrow(vUsdt, 500 ether);
-
-        // approve(wBnb, address(evoq), type(uint256).max);
-        // evoq.supply(vBnb, 1000 ether);
-        // evoq.borrow(vBtc, 0.2 ether);
-
         vm.stopBroadcast();
     }
-
-    function approve(address _token, address _spender, uint256 _amount) internal {
-        ERC20(_token).safeApprove(_spender, _amount);
-    }
-}
-
-interface WBNB {
-    function deposit() external payable;
 }

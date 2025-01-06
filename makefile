@@ -1,4 +1,4 @@
--include .env.local
+-include .env
 .EXPORT_ALL_VARIABLES:
 
 # initialize the project
@@ -35,6 +35,9 @@ deploy-testnet:
 # deploy contracts to mainnet
 deploy-mainnet:
 	forge script script/DeployMainnet.s.sol:Deploy --rpc-url ${MAINNET_RPC_URL} --private-key ${MAINNET_PRIV_KEY} --broadcast --force -vvv
+
+verify-contracts:
+	./script/verify.sh
 
 # faucet for testing things out
 faucet:

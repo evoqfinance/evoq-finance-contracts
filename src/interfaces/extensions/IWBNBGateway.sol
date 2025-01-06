@@ -2,10 +2,10 @@
 pragma solidity >=0.5.0;
 
 interface IWBNBGateway {
-    function WBNB() external pure returns (address);
+    function WBNB() external view returns (address);
     function VBNB() external view returns (address);
     function EVOQ() external view returns (address);
-    function EVOQ_TREASURY() external pure returns (address);
+    function EVOQ_TREASURY() external view returns (address);
 
     function skim(address erc20) external;
 

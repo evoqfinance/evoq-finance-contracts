@@ -101,20 +101,20 @@ contract Deploy is Script, Config {
         markets[5] = vFdusd;
 
         uint256[] memory supplyCaps = new uint256[](6);
-        supplyCaps[0] = 2_672_000 ether;
-        supplyCaps[1] = 22_770 ether;
-        supplyCaps[2] = 500_000_000 ether;
-        supplyCaps[3] = 258_000_000 ether;
-        supplyCaps[4] = 100_000 ether;
-        supplyCaps[5] = 100_000_000 ether;
+        supplyCaps[0] = evoqSupplyCaps[vBnb];
+        supplyCaps[1] = evoqSupplyCaps[vBtc];
+        supplyCaps[2] = evoqSupplyCaps[vUsdt];
+        supplyCaps[3] = evoqSupplyCaps[vUsdc];
+        supplyCaps[4] = evoqSupplyCaps[vEth];
+        supplyCaps[5] = evoqSupplyCaps[vFdusd];
 
         uint256[] memory borrowCaps = new uint256[](6);
-        borrowCaps[0] = 2_008_000 ether;
-        borrowCaps[1] = 3_531 ether;
-        borrowCaps[2] = 450_000_000 ether;
-        borrowCaps[3] = 200_000_000 ether;
-        borrowCaps[4] = 60_000 ether;
-        borrowCaps[5] = 80_000_000 ether;
+        borrowCaps[0] = evoqBorrowCaps[vBnb];
+        borrowCaps[1] = evoqBorrowCaps[vBtc];
+        borrowCaps[2] = evoqBorrowCaps[vUsdt];
+        borrowCaps[3] = evoqBorrowCaps[vUsdc];
+        borrowCaps[4] = evoqBorrowCaps[vEth];
+        borrowCaps[5] = evoqBorrowCaps[vFdusd];
 
         uint8[] memory capModes = new uint8[](6);
         capModes[0] = 1;
@@ -128,7 +128,7 @@ contract Deploy is Script, Config {
         evoq.setMarketBorrowCaps(markets, borrowCaps);
         evoq.setMarketCapModes(markets, capModes);
 
-        IWBNBGateway wbnbGateway = new WBNBGateway(address(evoq), vBnb);
+        wbnbGateway = new WBNBGateway(address(evoq), wBnb, vBnb, address(treasury));
 
         // ====== DEV ==========
 

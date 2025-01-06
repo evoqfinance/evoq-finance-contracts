@@ -19,6 +19,7 @@ import {DataLens} from "src/lens/DataLens.sol";
 import {IDataLens} from "src/lens/interfaces/IDataLens.sol";
 import {Evoq} from "src/Evoq.sol";
 import {Treasury} from "src/Treasury.sol";
+import {WBNBGateway} from "src/extensions/WBNBGateway.sol";
 import {BaseConfig} from "../BaseConfig.sol";
 import "src/libraries/Types.sol";
 
@@ -69,4 +70,25 @@ contract ConfigTestnet {
     IPositionsManager public positionsManager;
     IInterestRatesManager public interestRatesManager;
     Treasury public treasury;
+
+    WBNBGateway public wbnbGateway;
+
+    mapping(address => uint256) public evoqSupplyCaps;
+    mapping(address => uint256) public evoqBorrowCaps;
+
+    constructor() {
+        evoqSupplyCaps[vBnb] = 2_672_000 ether;
+        evoqSupplyCaps[vBtc] = 22_770 ether;
+        evoqSupplyCaps[vUsdt] = 500_000_000 ether;
+        evoqSupplyCaps[vUsdc] = 258_000_000 ether;
+        evoqSupplyCaps[vEth] = 100_000 ether;
+        evoqSupplyCaps[vFdusd] = 100_000_000 ether;
+
+        evoqBorrowCaps[vBnb] = 2_008_000 ether;
+        evoqBorrowCaps[vBtc] = 3_531 ether;
+        evoqBorrowCaps[vUsdt] = 450_000_000 ether;
+        evoqBorrowCaps[vUsdc] = 200_000_000 ether;
+        evoqBorrowCaps[vEth] = 60_000 ether;
+        evoqBorrowCaps[vFdusd] = 80_000_000 ether;
+    }
 }

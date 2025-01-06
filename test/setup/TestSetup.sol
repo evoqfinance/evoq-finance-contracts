@@ -90,7 +90,7 @@ contract TestSetup is Config, Utils {
             wBnb
         );
 
-        wbnbGateway = new WBNBGateway(address(evoq), vBnb);
+        wbnbGateway = new WBNBGateway(address(evoq), wBnb, vBnb, address(treasury));
 
         treasuryVault = new User(evoq, wbnbGateway);
 
@@ -165,7 +165,7 @@ contract TestSetup is Config, Utils {
 
         markets[0] = _vToken;
         supplyCaps[0] = type(uint256).max; // No supply cap
-        borrowCaps[0] = 0; // No borrow cap
+        borrowCaps[0] = type(uint256).max; // No borrow cap
 
         evoq.setMarketSupplyCaps(markets, supplyCaps);
         evoq.setMarketBorrowCaps(markets, borrowCaps);

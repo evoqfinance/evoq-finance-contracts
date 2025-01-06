@@ -25,36 +25,32 @@ contract WBNBGateway is IWBNBGateway {
     /// @notice Thrown when the amount used is zero.
     error AmountIsZero();
 
-    /* CONSTANTS */
-
-    /// @dev The address of the WBNB contract.
-    address internal constant _WBNB = 0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c;
-
-    /// @dev The address of the Evoq Treasury.
-    address internal constant _EVOQ_TREASURY = 0x9CFe75c7871cFB921Fd53e62e3CD4f8d09eeAbA7;
-
     /* IMMUTABLES */
 
     /// @dev The address of the Evoq protocol.
     IEvoq internal immutable _EVOQ;
+    address internal immutable _WBNB;
     address internal immutable _VBNB;
+    address internal immutable _EVOQ_TREASURY;
 
     /* CONSTRUCTOR */
 
     /// @notice Contract constructor.
     /// @param evoq The address of the Evoq protocol.
-    constructor(address evoq, address vbnb) {
+    constructor(address evoq, address wbnb, address vbnb, address treasury) {
         if (evoq == address(0)) revert AddressIsZero();
 
         _EVOQ = IEvoq(evoq);
+        _WBNB = wbnb;
         ERC20(_WBNB).safeApprove(evoq, type(uint256).max);
         _VBNB = vbnb;
+        _EVOQ_TREASURY = treasury;
     }
 
     /* EXTERNAL */
 
     /// @notice Returns the address of the WBNB contract.
-    function WBNB() external pure returns (address) {
+    function WBNB() external view returns (address) {
         return _WBNB;
     }
 
@@ -69,7 +65,7 @@ contract WBNBGateway is IWBNBGateway {
     }
 
     /// @notice Returns the address of the Evoq Treasury.
-    function EVOQ_TREASURY() external pure returns (address) {
+    function EVOQ_TREASURY() external view returns (address) {
         return _EVOQ_TREASURY;
     }
 

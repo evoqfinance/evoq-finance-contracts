@@ -8,9 +8,9 @@ contract ListDeployedAddresses is Script {
     using stdJson for string;
 
     function run() external view {
-        string memory chainId = "1337";
+        string memory chainId = "56";
         string memory path =
-            string.concat(vm.projectRoot(), "/broadcast/DeployLocal.s.sol/", chainId, "/run-latest.json");
+            string.concat(vm.projectRoot(), "/broadcast/DeployMainnet.s.sol/", chainId, "/run-latest.json");
         string memory deployData = vm.readFile(path);
 
         // TODO: overset the number because don't know how to get the exact number of deployed contracts.

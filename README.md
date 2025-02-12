@@ -1,6 +1,6 @@
 # Evoq
 
-Evoq is a modular money market optimizer interacting with the existing lending protocols. As a pool optimizer, Evoq connects lenders with borrowers directly, improving capital efficiency and yields while maintaining liquidity and risk levels of the underlying protocol.
+Evoq Finance is a p2p-based lending optimizer that operates alongside existing pool-based lending protocols, such as Aave, Compound, and Venus, to provide better rates for both suppliers and borrowers through peer-to-peer (p2p) matching.
 
 ## Usage
 

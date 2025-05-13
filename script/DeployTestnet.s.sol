@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: AGPL-3.0-only
-pragma solidity 0.8.22;
+pragma solidity ^0.8.0;
 
 import "src/interfaces/IRewardsManager.sol";
 import "src/interfaces/IInterestRatesManager.sol";
@@ -24,12 +24,15 @@ import {SimplePriceOracle} from "../test/helpers/SimplePriceOracle.sol";
 
 import "config/venus/ConfigTestnet.sol";
 import "forge-std/Script.sol";
+import "forge-std/console.sol";
 
 contract Deploy is Script, ConfigTestnet {
     using SafeTransferLib for ERC20;
 
     function run() external {
-        vm.label(address(comptroller), "Comptroller");
+        address comptroller = address(0x7d5785D151630F90F1Af60C009440D022a2eB2dA);
+
+        vm.label(comptroller, "Comptroller");
         vm.label(vBnb, "vBNB");
         vm.label(vBtc, "vBTC");
         vm.label(vUsdt, "vUSDT");
@@ -45,14 +48,11 @@ contract Deploy is Script, ConfigTestnet {
         positionsManager = new PositionsManager();
 
         // Deploy Evoq
-        evoqProxy =
-            TransparentUpgradeableProxy(payable(Upgrades.deployTransparentProxy("Evoq.sol:Evoq", msg.sender, "")));
-
-        evoq = Evoq(payable(evoqProxy));
-        evoq.initialize(
+        bytes memory initData = abi.encodeWithSelector(
+            Evoq.initialize.selector,
             positionsManager,
             interestRatesManager,
-            comptroller,
+            IComptroller(comptroller),
             Types.MaxGasForMatching({supply: 3e6, borrow: 3e6, withdraw: 3e6, repay: 3e6}),
             1,
             16,
@@ -60,6 +60,42 @@ contract Deploy is Script, ConfigTestnet {
             wBnb
         );
 
+        console.log("Deploying Evoq...");
+
+        address owner = 0x7Bd1f59bB026e0aa948f9fDC2d4890179a21406d;
+        evoqProxy = TransparentUpgradeableProxy(
+            payable(Upgrades.deployTransparentProxy("Evoq.sol:Evoq", owner, initData))
+        );
+
+        console.log("Evoq deployed at:", address(evoqProxy));
+
+        evoq = Evoq(payable(evoqProxy));
+
+        IComptroller comptrollerInterface = IComptroller(address(0x7d5785D151630F90F1Af60C009440D022a2eB2dA));
+        try comptrollerInterface.supportMarket(vBnb) {
+            console.log("Market supported successfully");
+        } catch Error(string memory reason) {
+            console.log("Error:", reason);
+        } catch (bytes memory lowLevelData) {
+            console.log("Low level error:");
+        }
+        comptrollerInterface.supportMarket(vBtc);
+        comptrollerInterface.supportMarket(vUsdt);
+        comptrollerInterface.supportMarket(vUsdc);
+        comptrollerInterface.supportMarket(vEth);
+        comptrollerInterface.supportMarket(vFdusd);
+
+        Types.MarketParameters memory defaultMarketParameters = Types.MarketParameters({
+            reserveFactor: 0,
+            p2pIndexCursor: 4_000
+        });
+
+        evoq.createMarket(vBnb, defaultMarketParameters);
+        evoq.createMarket(vBtc, defaultMarketParameters);
+        evoq.createMarket(vUsdt, defaultMarketParameters);
+        evoq.createMarket(vUsdc, defaultMarketParameters);
+        evoq.createMarket(vEth, defaultMarketParameters);
+        evoq.createMarket(vFdusd, defaultMarketParameters);
         // Deploy RewardsManager
         rewardsManagerProxy = TransparentUpgradeableProxy(
             payable(Upgrades.deployTransparentProxy("RewardsManager.sol:RewardsManager", msg.sender, ""))
@@ -78,16 +114,6 @@ contract Deploy is Script, ConfigTestnet {
         treasury = new Treasury();
         evoq.setTreasuryVault(address(treasury));
         evoq.setTreasuryPercentMantissa(0.05 ether); // 5%
-
-        // Create markets
-        Types.MarketParameters memory defaultMarketParameters =
-            Types.MarketParameters({reserveFactor: 0, p2pIndexCursor: 4_000});
-        evoq.createMarket(vBnb, defaultMarketParameters);
-        evoq.createMarket(vBtc, defaultMarketParameters);
-        evoq.createMarket(vUsdt, defaultMarketParameters);
-        evoq.createMarket(vUsdc, defaultMarketParameters);
-        evoq.createMarket(vEth, defaultMarketParameters);
-        evoq.createMarket(vFdusd, defaultMarketParameters);
 
         // Set market supply and borrow caps
         address[] memory markets = new address[](6);
@@ -127,6 +153,9 @@ contract Deploy is Script, ConfigTestnet {
         evoq.setMarketCapModes(markets, capModes);
 
         wbnbGateway = new WBNBGateway(address(evoq), wBnb, vBnb, address(treasury));
+
+        address currentComptroller = address(evoq.comptroller());
+        console.log("Current Comptroller:", currentComptroller);
 
         vm.stopBroadcast();
     }

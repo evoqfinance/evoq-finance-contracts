@@ -10,7 +10,7 @@ import "./EvoqGovernance.sol";
 contract Evoq is EvoqGovernance {
     using SafeTransferLib for ERC20;
     using DelegateCall for address;
-
+    
     /// EVENTS ///
 
     /// @notice Emitted when a user claims rewards.
@@ -29,6 +29,27 @@ contract Evoq is EvoqGovernance {
 
     /// EXTERNAL ///
 
+    function initialize(
+        IPositionsManager _positionsManager,
+        IInterestRatesManager _interestRatesManager,
+        IComptroller _comptroller,
+        Types.MaxGasForMatching memory _defaultMaxGasForMatching,
+        uint256 _dustThreshold,
+        uint256 _maxSortedUsers,
+        address _vBnb,
+        address _wBnb
+    ) public override initializer {
+        super.initialize(
+            _positionsManager,
+            _interestRatesManager,
+            _comptroller,
+            _defaultMaxGasForMatching,
+            _dustThreshold,
+            _maxSortedUsers,
+            _vBnb,
+            _wBnb
+        );
+    }
     /// @notice Supplies underlying tokens to a specific market.
     /// @dev `msg.sender` must have approved Evoq's contract to spend the underlying `_amount`.
     /// @param _poolToken The address of the market the user wants to interact with.

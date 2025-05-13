@@ -21,6 +21,8 @@ interface IComptroller {
         uint32 block;
     }
 
+    function supportMarket(address vToken) external returns (bool);
+
     function liquidationIncentiveMantissa() external view returns (uint256);
 
     function closeFactorMantissa() external view returns (uint256);

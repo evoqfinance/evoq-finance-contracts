@@ -24,20 +24,34 @@ import {BaseConfig} from "../BaseConfig.sol";
 import "src/libraries/Types.sol";
 
 contract ConfigTestnet {
-    address constant wBnb = 0x832a7DffD8FD492886DfF2fe7B062c0490009b41;
-    address constant btcb = 0x78e2A49122128bC04e9d445F881297B11e64eE7D;
-    address constant usdt = 0xC7Bf79a4abE92243E4794FF6a4Ea0f9C0FcBfc8B;
-    address constant usdc = 0xE9071FD2d0C84A1302b19FBa37b689e833320008;
+    address public constant wBnb = 0x832a7DffD8FD492886DfF2fe7B062c0490009b41;
+    address public constant btcb = 0x78e2A49122128bC04e9d445F881297B11e64eE7D;
+    address public constant usdt = 0xC7Bf79a4abE92243E4794FF6a4Ea0f9C0FcBfc8B;
+    address public constant usdc = 0xE9071FD2d0C84A1302b19FBa37b689e833320008;
+    address public constant eth = 0x98f7A83361F7Ac8765CcEBAB1425da6b341958a7;
+    address public constant wbeth = 0xf9F98365566F4D55234f24b99caA1AfBE6428D44;
+    address public constant fdusd = 0xcF27439fA231af9931ee40c4f27Bb77B83826F3C;
+    address public constant cake = 0xe8bd7cCC165FAEb9b81569B05424771B9A20cbEF;
+    address public constant xvs = 0xB9e0E753630434d7863528cc73CB7AC638a7c8ff;
+    address public constant matic = 0xcfeb0103d4BEfa041EA4c2dACce7B3E83E1aE7E3;
 
-    address constant vBnb = 0x7d4466a7ACF15b4f5e1D44D3380f5eFCC91Dd066;
-    address constant vBtc = 0xb6e9322C49FD75a367Fcb17B0Fcd62C5070EbCBe;
-    address constant vUsdt = 0xb7526572FFE56AB9D7489838Bf2E18e3323b441A;
-    address constant vUsdc = 0xD5C4C2e2facBEB59D0216D0595d63FcDc6F9A1a7;
+    address public constant vBnb = 0xb24DEcC60D580e4040A6eC2F820455a6c02dFdC3;
+    address public constant vBtc = 0x7E122784Ed346abF21536e3c1E2be2B47Fb619eb;
+    address public constant vUsdt = 0x213966030BFAFa3C9Ea9fca87BCA2d51981E4975;
+    address public constant vUsdc = 0x39f40402E11772B56B8b334153D99d2F1cc10ce5;
+    address public constant vEth = 0x162D005F0Fff510E54958Cfc5CF32A3180A84aab;
+    address public constant vWbeth = 0x35566ED3AF9E537Be487C98b1811cDf95ad0C32b;
+    address public constant vFdusd = 0xF06e662a00796c122AaAE935EC4F0Be3F74f5636;
+    address public constant vCake = 0xeDaC03D29ff74b5fDc0CC936F6288312e1459BC6;
+    address public constant vXvs = 0x6d6F697e34145Bb95c54E77482d97cc261Dc237E;
+    address public constant vMatic = 0x3619bdDc61189F33365CC572DF3a68FB3b316516;
 
-    IComptroller public comptroller = IComptroller(0x94d1820b2D1c7c7452A163983Dc888CEC546b77D);
-    IVenusOracle public oracle = IVenusOracle(comptroller.oracle());
+    IVenusOracle public bnbOracle = IVenusOracle(0xcA6362339c5A6F5DA506E0B79ea34ABE8C6b8DE2);
+    IVenusOracle public btcbOracle = IVenusOracle(0x15022478BD09Df28715D8755f0FA7C1a7e6B7D5a);
+    IVenusOracle public usdtOracle = IVenusOracle(0xd7422eaB46231a8DcE398Cd178362F6A20C97575);
+    IVenusOracle public usdcOracle = IVenusOracle(0x0C2D92688d36eF2219F4DDBAA4bbeDAc61467DD7);
 
-    address public comptrollerAdmin = comptroller.admin(); // Timelock
+    address public constant comptroller = 0x7d5785D151630F90F1Af60C009440D022a2eB2dA; // Deployed MockComptroller
 
     // Evoq
     ProxyAdmin public proxyAdmin;

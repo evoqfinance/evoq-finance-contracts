@@ -164,7 +164,7 @@ abstract contract EvoqGovernance is EvoqUtils {
         uint256 _maxSortedUsers,
         address _vBnb,
         address _wBnb
-    ) external initializer {
+    ) public virtual initializer {
         __ReentrancyGuard_init();
         __Ownable_init(msg.sender);
 
